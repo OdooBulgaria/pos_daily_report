@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+      <record id="view_daily_pos_sale_wiz_view" model="ir.ui.view">
+        <field name="name">daily.pos.sale.wiz.view.form</field>
+        <field name="model">daily.pos.sale.wiz.view</field>
+        <field name="arch" type="xml">
+            <form string="Daily Report" >
+               <group>
+                    <field name="date_from" required="1"/>
+                    <field name="date_to" required="1" />              
+               </group>
+               <footer>
+                    <button name="download_sale_report_txt_file" string="Daily Report" type="object" class="oe_highlight"  />
+             	
+                    <button string="Cancel" class="oe_highlight" special="cancel" />
+               </footer>
+           </form>
+        </field>
+    </record>
+
+    <record id="action_pos_sale_report" model="ir.actions.act_window">
+        <field name="name">POS SALE Report</field>
+        <field name="res_model">daily.pos.sale.wiz.view</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_daily_pos_sale_wiz_view"/>
+        <field name="target">inline</field>
+    </record>
+
+    <record id="binary_sale_report_text_file_wizard_view" model="ir.ui.view">
+        <field name="name">binary.sale.report.text.file.wizard.form</field>
+        <field name="model">binary.sale.report.text.file.wizard</field>
+        <field name="arch" type="xml">
+            <form string="View Sale Report txt File">
+                <group>
+                    <field name="name" invisible="1"/>  
+                    <field name="sale_report_txt_file" filename="name"/>
+                </group>
+                <separator string="" colspan="4"/>
+                <footer>
+                    <button special="cancel" string="Cancel" icon="gtk-cancel" colspan="2"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <menuitem name="Report" id="menu_point_of_sale_report_daily" action="action_pos_sale_report" parent="point_of_sale.menu_point_of_sale" sequence="10"/>
+
+    </data>
+</openerp>
