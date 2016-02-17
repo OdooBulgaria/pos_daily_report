@@ -73,7 +73,7 @@ class binary_sale_report_text_file_wizard(osv.osv_memory):
                     pos_order_ids = pos_order_obj.search(cr,uid,[('create_date','>',str(time_from)),('create_date','<',str(time_to))])
                     if pos_order_ids:
                         for each in pos_order_obj.browse(cr,uid,pos_order_ids):
-                            detail_record = detail_record + '\t' + str(time)+' '+str(each.name) +'\r\n'
+                            detail_record = detail_record + '\t' + str(each.name)+'|'+'Batch ID'+'|'+str(next_date)+'|'+str(hour)+'|'+'Receipt Count'+'|'+'GTO Sales'+'|'+'GST'+'|'+'Dicount'+'|'+'Service Charge'+'|'+'No. of Pax'+'|'+'Cash'+'|'+'NETS'+'|'+'Visa'+'|'+'MasterCard'+'|'+'Amex'+'|'+'Voucher'+'|'+'Others'+'|'+'GST'+'\r\n'
                     time += timedelta(hours=1)
                 next_date +=  timedelta(days=1)
             
