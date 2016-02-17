@@ -65,8 +65,15 @@ class binary_sale_report_text_file_wizard(osv.osv_memory):
                 time =   datetime.strftime(next_date,'%Y-%m-%d %H:%M:%S')
                 time = datetime.strptime(time,'%Y-%m-%d %H:%M:%S')
                 for hour in range(0,24):
-                    print "time",time
-                    detail_record = detail_record + '\t' + str(time) + '\n'
+                    pos_order_ids = []
+                    time_to = time + timedelta(hours=1,minutes=00)
+                    time_from = datetime.strptime(str(time),'%Y-%m-%d %H:%M:%S')
+                    time_to = datetime.strptime(str(time_to),'%Y-%m-%d %H:%M:%S')
+                    print "time",time_from,time_to
+                    pos_order_ids = pos_order_obj.search(cr,uid,[('create_date','>',str(time_from)),('create_date','<',str(time_to))])
+                    if pos_order_ids:
+                        for each in pos_order_obj.browse(cr,uid,pos_order_ids):
+                            detail_record = detail_record + '\t' + str(time) +str(each.name) +'\n'
                     time += timedelta(hours=1)
                 next_date +=  timedelta(days=1)
             
