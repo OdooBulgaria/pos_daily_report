@@ -50,7 +50,7 @@ class binary_sale_report_text_file_wizard(osv.osv_memory):
         try:
             tmp_file = open(tgz_tmp_filename, "wr")
             net_amount_total=0.0
-            detail_record = 'Deatil Report'
+            detail_record = 'Deatil Report sdfhsjfhsdjfhj'
             
             # tmp_file.write(header_record)
             tmp_file.write(detail_record)
