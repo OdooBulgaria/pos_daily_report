@@ -60,7 +60,7 @@ class binary_sale_report_text_file_wizard(osv.osv_memory):
             detail_record = ''
             next_date = from_date
             for day in range(0, int(diff_day)):
-                detail_record = detail_record  + str(next_date) + '\n'
+                detail_record = detail_record  + str(next_date) + '\r\n'
                 next_hr = next_date
                 time =   datetime.strftime(next_date,'%Y-%m-%d %H:%M:%S')
                 time = datetime.strptime(time,'%Y-%m-%d %H:%M:%S')
@@ -73,7 +73,7 @@ class binary_sale_report_text_file_wizard(osv.osv_memory):
                     pos_order_ids = pos_order_obj.search(cr,uid,[('create_date','>',str(time_from)),('create_date','<',str(time_to))])
                     if pos_order_ids:
                         for each in pos_order_obj.browse(cr,uid,pos_order_ids):
-                            detail_record = detail_record + '\t' + str(time) +str(each.name) +'\n'
+                            detail_record = detail_record + '\t' + str(time)+' '+str(each.name) +'\r\n'
                     time += timedelta(hours=1)
                 next_date +=  timedelta(days=1)
             
