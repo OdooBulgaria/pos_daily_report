@@ -10,8 +10,8 @@ import math
 class daily_pos_sale_wiz_view(osv.osv_memory):
 	_name = 'daily.pos.sale.wiz.view'
 	_columns= {
-        'date_from': fields.datetime('From Date'),
-        'date_to': fields.datetime('To Date'),
+        'date_from': fields.date('From Date'),
+        'date_to': fields.date('To Date'),
     }
 
 	def download_sale_report_txt_file(self, cr, uid, ids, context):
@@ -37,7 +37,7 @@ class binary_sale_report_text_file_wizard(osv.osv_memory):
             context = {}
         print context
         print context.get('datas')
-        DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+        DATETIME_FORMAT = "%Y-%m-%d"
         pos_order_obj = self.pool.get('pos.order')
         start_date = context.get('datas')['date_from']
         end_date = context.get('datas')['date_to']
