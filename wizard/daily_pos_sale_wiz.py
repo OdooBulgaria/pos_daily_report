@@ -29,6 +29,7 @@ class daily_pos_sale_wiz_view(osv.osv_memory):
 			'context': context,
 		}
 daily_pos_sale_wiz_view()
+
 class binary_sale_report_text_file_wizard(osv.osv_memory):
     _name = 'binary.sale.report.text.file.wizard'
 
@@ -39,6 +40,7 @@ class binary_sale_report_text_file_wizard(osv.osv_memory):
         print context.get('datas')
         DATETIME_FORMAT = "%Y-%m-%d"
         pos_order_obj = self.pool.get('pos.order')
+        pos_order_line = self.pool.get('pos.order.line')
         start_date = context.get('datas')['date_from']
         end_date = context.get('datas')['date_to']
 
@@ -66,6 +68,12 @@ class binary_sale_report_text_file_wizard(osv.osv_memory):
                 time = datetime.strptime(time,'%Y-%m-%d %H:%M:%S')
                 for hour in range(0,24):
                     pos_order_ids = []
+                    recipt_count = 0
+                    gto_sale = 0
+                    amount_gst=0
+                    amount_discount = 0
+                    service_charge = 0
+                    number_of_pax = 0
                     time_to = time + timedelta(hours=1,minutes=00)
                     time_from = datetime.strptime(str(time),'%Y-%m-%d %H:%M:%S')
                     time_to = datetime.strptime(str(time_to),'%Y-%m-%d %H:%M:%S')
@@ -73,7 +81,16 @@ class binary_sale_report_text_file_wizard(osv.osv_memory):
                     pos_order_ids = pos_order_obj.search(cr,uid,[('create_date','>',str(time_from)),('create_date','<',str(time_to))])
                     if pos_order_ids:
                         for each in pos_order_obj.browse(cr,uid,pos_order_ids):
-                            detail_record = detail_record + '\t' + str(each.name)+'|'+'Batch ID'+'|'+str(next_date)+'|'+str(hour)+'|'+'Receipt Count'+'|'+'GTO Sales'+'|'+'GST'+'|'+'Dicount'+'|'+'Service Charge'+'|'+'No. of Pax'+'|'+'Cash'+'|'+'NETS'+'|'+'Visa'+'|'+'MasterCard'+'|'+'Amex'+'|'+'Voucher'+'|'+'Others'+'|'+'GST'+'\r\n'
+                    		recipt_count +=1
+                    		amount_gst += each.amount_tax
+                    		line_sale = 0
+                    		line_discount = 0
+                    		for line in pos_order_line.browse(cr,uid,each.lines)
+                    			line_sale += lines.qty * lines.price_unit
+                    			line_subtotal +=  lines.price_subtotal
+                    		gto_sale = line_sale
+                    		amount_discount = gto_sale - line_subtotal 
+                    detail_record = detail_record + '\t' +'MachineID'+'|'+'Batch ID'+'|'+str(next_date)+'|'+str(hour)+'|'+str(recipt_count)+'|'+str(gto_sale)+'|'+str(amount_gst)+'|'+str(amount_discount)+'|'+str(service_charge)+'|'+str(number_of_pax)+'|'+'Cash'+'|'+'NETS'+'|'+'Visa'+'|'+'MasterCard'+'|'+'Amex'+'|'+'Voucher'+'|'+'Others'+'|'+'GST'+'\r\n'
                     time += timedelta(hours=1)
                 next_date +=  timedelta(days=1)
             
