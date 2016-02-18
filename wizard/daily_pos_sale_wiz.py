@@ -6,6 +6,7 @@ from tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT
 import base64
 import tempfile
 import math
+import pysftp
 
 class daily_pos_sale_wiz_view(osv.osv_memory):
 	_name = 'daily.pos.sale.wiz.view'
@@ -33,6 +34,12 @@ daily_pos_sale_wiz_view()
 
 class binary_sale_report_text_file_wizard(osv.osv_memory):
     _name = 'binary.sale.report.text.file.wizard'
+
+    def send_file_sftp(self, cr, uid, context=None):
+    	srv = pysftp.Connection(host="www.destination.com", username="root",password="password",log="./temp/pysftp.log")
+    	srv.put('test.txt') #upload file to nodejs/
+		# Closes the connection
+		srv.close()
 
     def _generate_sale_report_file(self, cr, uid, context=None):
         if context is None:
