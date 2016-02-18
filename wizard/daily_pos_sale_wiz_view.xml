@@ -6,9 +6,9 @@
         <field name="model">daily.pos.sale.wiz.view</field>
         <field name="arch" type="xml">
             <form string="Daily Report" >
-               <group>
-                    <field name="date_from" required="1"/>
-                    <field name="date_to" required="1" />              
+               <group colspan="4" cols="4">
+                    <field name="date" required="1"/>
+                    <!-- <field name="session_id" required="1" />               -->
                </group>
                <footer>
                     <button name="download_sale_report_txt_file" string="Daily Report" type="object" class="oe_highlight"  />
