@@ -14,6 +14,7 @@ class daily_pos_sale_wiz_view(osv.osv_memory):
 	_name = 'daily.pos.sale.wiz.view'
 	_columns= {
         'date': fields.date('Date'),
+        'config_id' : fields.many2one('pos.config', 'Point of Sale')
         # 'session_id' : fields.many2one('pos.session', 'Session')
 
     }
@@ -156,6 +157,7 @@ class binary_sale_report_text_file_wizard(osv.osv_memory):
         # start_date = context.get('datas')['date_from']
         # end_date = context.get('datas')['date_to']
         date = context.get('datas')['date']
+        config_id = context.get('datas')['config_id']
         date = datetime.strptime(date, DATETIME_FORMAT)
         # end_date = datetime.strptime(end_date, DATETIME_FORMAT)
 
@@ -199,8 +201,10 @@ class binary_sale_report_text_file_wizard(osv.osv_memory):
                     time_to = time - timedelta(hours=4,minutes=30)
                     time_from = datetime.strptime(str(time_from),'%Y-%m-%d %H:%M:%S')
                     time_to = datetime.strptime(str(time_to),'%Y-%m-%d %H:%M:%S')
-                    print "time",time_from,time_to
-                    pos_order_ids = pos_order_obj.search(cr,uid,[('create_date','>',str(time_from)),('create_date','<',str(time_to))])
+                    print "============",config_id[0]
+                    session_ids = self.pool.get('pos.session').search(cr,uid,[('config_id','=',config_id[0])])
+                    print "time",time_from,time_to,session_ids
+                    pos_order_ids = pos_order_obj.search(cr,uid,[('create_date','>',str(time_from)),('create_date','<',str(time_to)),('session_id','in',session_ids)])
                     if pos_order_ids:
                         for each in pos_order_obj.browse(cr,uid,pos_order_ids):
                     		recipt_count +=1

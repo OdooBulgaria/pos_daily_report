@@ -8,6 +8,7 @@
             <form string="Daily Report" >
                <group colspan="4" cols="4">
                     <field name="date" required="1"/>
+                    <field name="config_id" required="1"/>
                     <!-- <field name="session_id" required="1" />               -->
                </group>
                <footer>
