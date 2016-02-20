@@ -152,15 +152,15 @@ class binary_sale_report_text_file_wizard(osv.osv_memory):
         
         save_path = '/home/ubuntu'
         file_name = str(datetime.strftime(date, "%Y%m%d"))+'.txt'
-        print file_name
+        # print file_name
         completeName = os.path.join(save_path,file_name)         
         file1 = open(completeName, "w")
         file1.write(out)
         file1.close()
         try:
-            srv = pysftp.Connection('hostname', username='username', password='******')
+            srv = pysftp.Connection('ftp.stagemicro.com', username='atad@stagemicro.com', password='hashmicro.com')
             remotepath = '/'
-            localpath = '/'+file_name
+            localpath = '/home/ubuntu/'+file_name
             srv.put(localpath, remotepath)  
             srv.close()
         except Exception, e:
@@ -169,8 +169,8 @@ class binary_sale_report_text_file_wizard(osv.osv_memory):
     def _generate_sale_report_file(self, cr, uid, context=None):
         if context is None:
             context = {}
-        print context
-        print context.get('datas')
+        # print context
+        # print context.get('datas')
         DATETIME_FORMAT = "%Y-%m-%d"
         pos_order_obj = self.pool.get('pos.order')
         pos_order_line = self.pool.get('pos.order.line')
@@ -227,7 +227,7 @@ class binary_sale_report_text_file_wizard(osv.osv_memory):
                     print "time",time_from,time_to,time_from_prev,time_to_prev
 
                     last_order_id = pos_order_obj.search(cr,uid,[('create_date','>',str(time_from_prev)),('create_date','<',str(time_to_prev))])
-                    print last_order_id
+                    # print last_order_id
                     if last_order_id: 
                         last_batch_id = pos_order_obj.browse(cr,uid,last_order_id[0]).batch_id
                     else:
@@ -271,9 +271,9 @@ class binary_sale_report_text_file_wizard(osv.osv_memory):
 								if statement.journal_id.name == 'Other':
 								    other_amount += statement.amount
                                     
-                    	detail_record = detail_record  +'12345678'+'|'+str(batch_id)+'|'+str(datetime.strftime(next_date, "%Y%m%d"))+'|'+str(hour)+'|'+str(recipt_count)+'|'+str(gto_sale)+'|'+str(amount_gst)+'|'+str(amount_discount)+'|'+str(service_charge)+'|'+str(number_of_pax)+'|'+str(cash_amount)+'|'+str(nets_amount)+'|'+str(visa_amount)+'|'+str(mastercard_amount)+'|'+str(amax_amount)+'|'+str(voucher_amount)+'|'+str(other_amount)+'|'+'N'+'\r\n'
+                    	detail_record = detail_record  +'12345678'+'|'+str(batch_id)+'|'+str(datetime.strftime(next_date, "%d%m%Y"))+'|'+str(hour)+'|'+str(recipt_count)+'|'+str(gto_sale)+'|'+str(amount_gst)+'|'+str(amount_discount)+'|'+str(service_charge)+'|'+str(number_of_pax)+'|'+str(cash_amount)+'|'+str(nets_amount)+'|'+str(visa_amount)+'|'+str(mastercard_amount)+'|'+str(amax_amount)+'|'+str(voucher_amount)+'|'+str(other_amount)+'|'+'N'+'\r\n'
                     else:
-                    	detail_record = detail_record  +'12345678'+'|'+str(batch_id)+'|'+str(datetime.strftime(next_date, "%Y%m%d"))+'|'+str(hour)+'|'+str(recipt_count)+'|'+str(gto_sale)+'|'+str(amount_gst)+'|'+str(amount_discount)+'|'+str(service_charge)+'|'+str(number_of_pax)+'|'+str(cash_amount)+'|'+str(nets_amount)+'|'+str(visa_amount)+'|'+str(mastercard_amount)+'|'+str(amax_amount)+'|'+str(voucher_amount)+'|'+str(other_amount)+'|'+'N'+'\r\n'
+                    	detail_record = detail_record  +'12345678'+'|'+str(batch_id)+'|'+str(datetime.strftime(next_date, "%d%m%Y"))+'|'+str(hour)+'|'+str(recipt_count)+'|'+str(gto_sale)+'|'+str(amount_gst)+'|'+str(amount_discount)+'|'+str(service_charge)+'|'+str(number_of_pax)+'|'+str(cash_amount)+'|'+str(nets_amount)+'|'+str(visa_amount)+'|'+str(mastercard_amount)+'|'+str(amax_amount)+'|'+str(voucher_amount)+'|'+str(other_amount)+'|'+'N'+'\r\n'
                     time += timedelta(hours=1)
                     # time_prev += timedelta(hours=1)
                 next_date +=  timedelta(days=1)
@@ -286,11 +286,6 @@ class binary_sale_report_text_file_wizard(osv.osv_memory):
         out = file.read()
         file.close()
         
-        save_path = '/home/ubuntu'
-        completeName = os.path.join(save_path,"gaurav.txt")         
-        file1 = open(completeName, "w")
-        file1.write(out)
-        file1.close()
         return base64.b64encode(out)
 
     _columns = {
