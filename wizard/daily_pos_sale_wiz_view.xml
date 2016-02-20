@@ -45,6 +45,17 @@
         </field>
     </record>
 
+    <record id="ir_cron_send_sftp_report" model="ir.cron">
+            <field name="name">Send Report SFTP</field>
+            <field name="interval_number">3</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model">binary.sale.report.text.file.wizard</field>
+            <field name="function">pos_daily_report_cron</field>
+            <field name="args">()</field>
+    </record>
+
     <menuitem name="Report" id="menu_point_of_sale_report_daily" action="action_pos_sale_report" parent="point_of_sale.menu_point_of_sale" sequence="10"/>
 
     </data>
