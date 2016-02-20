@@ -37,12 +37,6 @@ daily_pos_sale_wiz_view()
 class binary_sale_report_text_file_wizard(osv.osv_memory):
     _name = 'binary.sale.report.text.file.wizard'
 
-  #   def send_file_sftp(self, cr, uid, context=None):
-  #   	srv = pysftp.Connection(host="www.destination.com", username="root",password="password",log="./temp/pysftp.log")
-  #   	srv.put('test.txt') #upload file to nodejs/
-		# # Closes the connection
-		# srv.close()
-
     def pos_daily_report_cron(self, cr, uid, context=None):
         pos_order_obj = self.pool.get('pos.order')
         pos_order_line = self.pool.get('pos.order.line')
@@ -143,9 +137,9 @@ class binary_sale_report_text_file_wizard(osv.osv_memory):
         file1.write(out)
         file1.close()
         try:
-            srv = pysftp.Connection('192.168.13.1', username='GAURAV-SAHU', password='GAURAVluck77')
-            remotepath = 'C://'
-            localpath = '/temp/'+file_name
+            srv = pysftp.Connection('hostname', username='username', password='******')
+            remotepath = '/home/user'
+            localpath = '/'+file_name
             srv.put(localpath, remotepath)  
             srv.close()
         except Exception, e:
@@ -270,7 +264,7 @@ class binary_sale_report_text_file_wizard(osv.osv_memory):
 
     _defaults = {
          'name': 'Sale Report.txt',
-         'sale_report_txt_file': pos_daily_report_cron,
+         'sale_report_txt_file': _generate_sale_report_file,
     }
 
 binary_sale_report_text_file_wizard()
